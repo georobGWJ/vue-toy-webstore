@@ -9,13 +9,22 @@
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
             crossorigin="anonymous">
     </head>
-    
+
     <body>
-        <div id="app"></div>
+        <div id="app">
+            <header>
+                <h1 v-text="sitename"></h1>
+            </header>
+            
+            <p>Welcome to {{ sitename }}!!!</p>
+        </div>
 
         <script type="text/javascript">
             var webstore = new Vue({
-                el: '#app'
+                el: '#app',
+                data: {
+                    sitename: 'Vue.js Dino Depot'
+                }
             });
         </script>
     </body>
