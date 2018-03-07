@@ -22,23 +22,45 @@
     <body>
         <div id="app">
             <header>
-                <h1 v-text="sitename"></h1>
+                <div class="navbar navbar-default">
+                    <h1> {{ sitename }} </h1>
+                </div>
+                <div class = "nav navbar-nav navbar-right cart">
+                    <button type="button" 
+                            class="btn btn-default btn-lg"
+                            v-on:click="showCheckout">
+                        <span class="glyphicon glyphicon-shopping-cart">
+                            {{ cartItemCount }}
+                        </span> 
+                    </button>
+                </div>
             </header>
 
             <main>
             <div class="container-fluid">
-              <div class="row product">
-                <div class="col-lg-4">
-                  <figure>
-                    <img v-bind:src="product.image">
-                  </figure>
-                  <p> </p>
+              <div v-if="showProduct">
+                <div class="row product">
+                    <div class="col-lg-4">
+                    <figure>
+                        <img v-bind:src="product.image">
+                    </figure>
+                    <p> </p>
+                    </div>
+                    <div class="col-lg-8">
+                    <h1> {{ product.title }} </h1>
+                    <p v-html="product.description"></p>
+                    <p class="price"> {{ product.price | formatPrice }}</p>
+                    <button class="default" v-on:click="addToCart" v-if="canAddToCart">
+                        Add to Cart
+                    </button>
+                    <button class="default" disabled="disabled" v-else>
+                        Backordered
+                    </button>
+                    </div>
                 </div>
-                <div class="col-lg-8">
-                  <h1> {{ product.title }} </h1>
-                  <p v-html="product.description"></p>
-                  <p class="price"> {{ product.price | formatPrice }}</p>
-                </div>
+              </div>
+              <div v-else>
+                  <h1>Checkout Page Here!!!</h1>
               </div>
             </div>
             </main>
@@ -57,9 +79,20 @@
                       description: "One ton of <em>irresistable</em>,"+
                                    "organic goodness for your dino!",
                       price: 1999,
-                      image: "assets/images/Dino-Nuggets.png"
-                    }
+                      image: "assets/images/Dino-Nuggets.png",
+                      availableInventory: 5
+                    },
+                    showProduct: true,
+                    cart: []
                   },
+                computed: {
+                    cartItemCount: function() {
+                        return this.cart.length || '';
+                    },
+                    canAddToCart: function() {
+                        return this.product.availableInventory > this.cartItemCount;
+                    }
+                },
                 filters: {
                 formatPrice: function(price) {
                   if (!parseInt(price)) { return ""; } // make sure price is a number
@@ -77,6 +110,14 @@
                   }
                 }
               },
+              methods: {
+                    addToCart: function() {
+                        this.cart.push( this.product.id );
+                    },
+                    showCheckout() {
+                        this.showProduct = this.showProduct ? false : true;
+                    }
+                },
                 beforeCreate: () => {
                     if (APP_LOG_LIFECYCLE_EVENTS) {
                         console.log("beforeCreate");
