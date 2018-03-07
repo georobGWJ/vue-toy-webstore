@@ -26,9 +26,13 @@
                     <h1> {{ sitename }} </h1>
                 </div>
                 <div class = "nav navbar-nav navbar-right cart">
-                    <span class="glyphicon glyphicon-shopping-cart">
-                        {{ cartItemCount }}
-                    </span>
+                    <button type="button" 
+                            class="btn btn-default btn-lg"
+                            v-on:click="showCheckout">
+                        <span class="glyphicon glyphicon-shopping-cart">
+                            {{ cartItemCount }}
+                        </span> 
+                    </button>
                 </div>
             </header>
 
@@ -45,10 +49,10 @@
                   <h1> {{ product.title }} </h1>
                   <p v-html="product.description"></p>
                   <p class="price"> {{ product.price | formatPrice }}</p>
-                  <button class="default" v-on:click="addToCart" v-show="canAddToCart">
+                  <button class="default" v-on:click="addToCart" v-if="canAddToCart">
                       Add to Cart
                   </button>
-                  <button class="default" disabled="disabled" v-show="!canAddToCart">
+                  <button class="default" disabled="disabled" v-else>
                     Backordered
                   </button>
                 </div>
@@ -73,6 +77,7 @@
                       image: "assets/images/Dino-Nuggets.png",
                       availableInventory: 5
                     },
+                    showProduct: true,
                     cart: []
                   },
                 computed: {
@@ -103,6 +108,9 @@
               methods: {
                     addToCart: function() {
                         this.cart.push( this.product.id );
+                    },
+                    showCheckout() {
+                        this.showProduct = this.showProduct ? false : true;
                     }
                 },
                 beforeCreate: () => {
