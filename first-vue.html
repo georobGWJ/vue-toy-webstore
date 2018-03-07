@@ -38,6 +38,9 @@
                   <h1> {{ product.title }} </h1>
                   <p v-html="product.description"></p>
                   <p class="price"> {{ product.price | formatPrice }}</p>
+                  <button class="default" v-on:click="addToCart">
+                      Add to Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -61,11 +64,6 @@
                     },
                     cart: []
                   },
-                methods: {
-                    addToCart: () => {
-                        this.cart.push( this.product.id );
-                    }
-                  },
                 filters: {
                 formatPrice: function(price) {
                   if (!parseInt(price)) { return ""; } // make sure price is a number
@@ -83,6 +81,11 @@
                   }
                 }
               },
+              methods: {
+                    addToCart: function() {
+                        this.cart.push( this.product.id );
+                    }
+                },
                 beforeCreate: () => {
                     if (APP_LOG_LIFECYCLE_EVENTS) {
                         console.log("beforeCreate");
