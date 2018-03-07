@@ -61,6 +61,11 @@
                     },
                     cart: []
                   },
+                methods: {
+                    addToCart: () => {
+                        this.cart.push( this.product.id );
+                    }
+                  },
                 filters: {
                 formatPrice: function(price) {
                   if (!parseInt(price)) { return ""; } // make sure price is a number
