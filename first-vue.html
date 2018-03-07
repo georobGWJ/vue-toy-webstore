@@ -38,24 +38,29 @@
 
             <main>
             <div class="container-fluid">
-              <div class="row product">
-                <div class="col-lg-4">
-                  <figure>
-                    <img v-bind:src="product.image">
-                  </figure>
-                  <p> </p>
+              <div v-if="showProduct">
+                <div class="row product">
+                    <div class="col-lg-4">
+                    <figure>
+                        <img v-bind:src="product.image">
+                    </figure>
+                    <p> </p>
+                    </div>
+                    <div class="col-lg-8">
+                    <h1> {{ product.title }} </h1>
+                    <p v-html="product.description"></p>
+                    <p class="price"> {{ product.price | formatPrice }}</p>
+                    <button class="default" v-on:click="addToCart" v-if="canAddToCart">
+                        Add to Cart
+                    </button>
+                    <button class="default" disabled="disabled" v-else>
+                        Backordered
+                    </button>
+                    </div>
                 </div>
-                <div class="col-lg-8">
-                  <h1> {{ product.title }} </h1>
-                  <p v-html="product.description"></p>
-                  <p class="price"> {{ product.price | formatPrice }}</p>
-                  <button class="default" v-on:click="addToCart" v-if="canAddToCart">
-                      Add to Cart
-                  </button>
-                  <button class="default" disabled="disabled" v-else>
-                    Backordered
-                  </button>
-                </div>
+              </div>
+              <div v-else>
+                  <h1>Checkout Page Here!!!</h1>
               </div>
             </div>
             </main>
