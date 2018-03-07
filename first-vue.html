@@ -5,10 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vue.js Dino Depot</title>
         <script src="https://unpkg.com/vue"></script>
+        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <!-- App Specific CSS -->
         <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
-        <link rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-            crossorigin="anonymous">
     </head>
 
     <body>
@@ -18,18 +26,21 @@
             </header>
 
             <main>
+            <div class="container-fluid">
               <div class="row product">
-                <div class="col">
+                <div class="col-lg-4">
                   <figure>
                     <img v-bind:src="product.image">
                   </figure>
+                  <p> </p>
                 </div>
-                <div class="col col-expand">
+                <div class="col-lg-8">
                   <h1> {{ product.title }} </h1>
                   <p v-html="product.description"></p>
                   <p class="price"> {{ product.price | formatPrice }}</p>
                 </div>
               </div>
+            </div>
             </main>
         </div>
 
