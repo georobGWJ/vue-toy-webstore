@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vue.js Dino Depot</title>
         <script src="https://unpkg.com/vue"></script>
-        <link rel="stylesheet" 
+        <link rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
             crossorigin="anonymous">
     </head>
@@ -15,17 +15,25 @@
             <header>
                 <h1 v-text="sitename"></h1>
             </header>
-            
+
             <p>Welcome to {{ sitename }}!!!</p>
         </div>
 
         <script type="text/javascript">
-            var APP_LOG_LIFECYCLE_EVENTS = true;
+            var APP_LOG_LIFECYCLE_EVENTS = false;
 
             var webstore = new Vue({
                 el: '#app',
                 data: {
-                    sitename: 'Vue.js Dino Depot'
+                    sitename: 'Vue.js Dino Depot',
+                    product: {
+                      id: 1001,
+                      title: "Ankylosaurus Food, 1 ton bag",
+                      description: "One ton of <em>irresistable</em>,"+
+                                   "organic goodness for your dino!",
+                      price: 1999,
+                      image: "assets/images/product-fullsize.png"
+                    }
                 },
                 beforeCreate: () => {
                     if (APP_LOG_LIFECYCLE_EVENTS) {
