@@ -22,7 +22,14 @@
     <body>
         <div id="app">
             <header>
-                <h1 v-text="sitename"></h1>
+                <div class="navbar navbar-default">
+                    <h1> {{ sitename }}></h1>
+                </div>
+                <div class = "nav navbar-nav navbar-right cart">
+                    <span class="glyphicon glyphicon-shopping-cart">
+                        {{ cartItemCount }}
+                    </span>
+                </div>
             </header>
 
             <main>
@@ -64,6 +71,11 @@
                     },
                     cart: []
                   },
+                computed: {
+                    cartItemCount: function() {
+                        return this.cart.length;
+                    }
+                },
                 filters: {
                 formatPrice: function(price) {
                   if (!parseInt(price)) { return ""; } // make sure price is a number
