@@ -23,7 +23,7 @@
         <div id="app">
             <header>
                 <div class="navbar navbar-default">
-                    <h1> {{ sitename }}></h1>
+                    <h1> {{ sitename }} </h1>
                 </div>
                 <div class = "nav navbar-nav navbar-right cart">
                     <span class="glyphicon glyphicon-shopping-cart">
@@ -45,8 +45,11 @@
                   <h1> {{ product.title }} </h1>
                   <p v-html="product.description"></p>
                   <p class="price"> {{ product.price | formatPrice }}</p>
-                  <button class="default" v-on:click="addToCart">
+                  <button class="default" v-on:click="addToCart" v-show="canAddToCart">
                       Add to Cart
+                  </button>
+                  <button class="default" disabled="disabled" v-show="!canAddToCart">
+                    Backordered
                   </button>
                 </div>
               </div>
@@ -67,13 +70,17 @@
                       description: "One ton of <em>irresistable</em>,"+
                                    "organic goodness for your dino!",
                       price: 1999,
-                      image: "assets/images/Dino-Nuggets.png"
+                      image: "assets/images/Dino-Nuggets.png",
+                      availableInventory: 5
                     },
                     cart: []
                   },
                 computed: {
                     cartItemCount: function() {
-                        return this.cart.length;
+                        return this.cart.length || '';
+                    },
+                    canAddToCart: function() {
+                        return this.product.availableInventory > this.cartItemCount;
                     }
                 },
                 filters: {
