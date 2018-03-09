@@ -53,15 +53,21 @@
                       v-on:click="addToCart" 
                       v-if="canAddToCart">
                         Add to Cart
-                    </button>
+              </button>
               <button class="btn btn-primary btn-lg" 
                       disabled="true" v-else>
                         Backordered
-                    </button>
+              </button>
               <span class="inventory-message"
-                    v-if="product.availableInventory - cartItemCount < 5">
+                    v-if="product.availableInventory - cartItemCount === 0">
+                  Out of Inventory...
+              </span>
+              <span class="inventory-message"
+                    v-else-if="product.availableInventory - cartItemCount < 5">
                   Only {{ product.availableInventory - cartItemCount }} left!
-                  </span>
+              </span>
+              <span class="inventory-message"
+                    v-else>Buy now! 
               </span>
             </div>
           </div>
