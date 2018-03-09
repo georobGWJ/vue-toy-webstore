@@ -49,12 +49,20 @@
               <h1> {{ product.title }} </h1>
               <p v-html="product.description"></p>
               <p class="price"> {{ product.price | formatPrice }}</p>
-              <button class="default" v-on:click="addToCart" v-if="canAddToCart">
+              <button class="btn btn-primary btn-lg" 
+                      v-on:click="addToCart" 
+                      v-if="canAddToCart">
                         Add to Cart
                     </button>
-              <button class="default" disabled="disabled" v-else>
+              <button class="btn btn-primary btn-lg" 
+                      disabled="true" v-else>
                         Backordered
                     </button>
+              <span class="inventory-message"
+                    v-if="product.availableInventory - cartItemCount < 5">
+                  Only {{ product.availableInventory - cartItemCount }} left!
+                  </span>
+              </span>
             </div>
           </div>
         </div>
@@ -162,7 +170,7 @@
             "organic goodness for your dino!",
           price: 1999,
           image: "assets/images/Dino-Nuggets.png",
-          availableInventory: 5
+          availableInventory: 10
         },
         showProduct: true,
         order: {
