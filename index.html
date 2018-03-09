@@ -28,13 +28,14 @@
   <div id="app">
     <header>
       <div class="navbar navbar-default">
-        <h1> {{ sitename }} </h1>
-      </div>
-      <div class="nav navbar-nav navbar-right cart">
-        <button type="button" class="btn btn-default btn-lg" v-on:click="showCheckout">
-                        <span class="glyphicon glyphicon-shopping-cart">
-                            {{ this.cart.length }}
-                        </span>
+        <div class="navbar-header">
+          <h1> {{ sitename }} </h1>
+        </div>
+        <div class="nav navbar-nav navbar-right cart">
+          <button type="button" class="btn btn-default btn-lg" v-on:click="showCheckout">
+            <span class="glyphicon glyphicon-shopping-cart">
+                {{ this.cart.length || '' }}
+            </span>
                     </button>
       </div>
     </header>
@@ -45,7 +46,7 @@
               <div class="row">
                 <div class="col-lg-4">
                   <figure>
-                    <img v-bind:src="product.image">
+                    <img class="product" v-bind:src="product.image">
                   </figure>
                   <p> </p>
                 </div>
@@ -219,7 +220,7 @@
         }
       },
       methods: {
-        addToCart: function() {
+        addToCart: function(aProduct) {
           this.cart.push(aProduct.id);
         },
         showCheckout() {
@@ -244,47 +245,44 @@
           return count;
         }
       },
-      beforeCreate: () => {
+      beforeCreate: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("beforeCreate");
         }
       },
-      created: () => {
-        if (APP_LOG_LIFECYCLE_EVENTS) {
-          console.log("created");
-        }
+      created: function() {
         axios.get('./products.json')
           .then((response) => {
             this.products=response.data.products;
             console.log(this.products);
           });
       },
-      beforeMount: () => {
+      beforeMount: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("beforeMount");
         }
       },
-      mounted: () => {
+      mounted: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("mounted");
         }
       },
-      beforeUpdate: () => {
+      beforeUpdate: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("beforeUpdate");
         }
       },
-      updated: () => {
+      updated: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("updated");
         }
       },
-      beforeDestroy: () => {
+      beforeDestroy: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("beforeDestroy");
         }
       },
-      destroyed: () => {
+      destroyed: function() {
         if (APP_LOG_LIFECYCLE_EVENTS) {
           console.log("destroyed");
         }
