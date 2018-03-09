@@ -72,13 +72,13 @@
                   <span class="inventory-message" v-else>Buy now!
                   </span>
                   <div class="rating">
-                    <span v-bind:class="{'rating-active': checkRating(n)}" v-for="n in 5">☆</span>
+                    <span v-bind:class="{'rating-active': checkRating(n, product)}" v-for="n in 5">☆</span>
                   </div>
                 </div>
               </div> <!-- End of row -->
-              <hr />
-            </div>
-          </div> 
+              <hr /> 
+            </div> <!-- End of v-for -->
+          </div> <!-- End of showProduct -->
           
           <div v-else>
             <div class="row">
@@ -241,8 +241,8 @@
         submitForm() {
           alert('Submitted! Thank you!');
         },
-        checkRating(n) {
-          return this.product.rating - n >= 0;
+        checkRating(n, myProduct) {
+          return myProduct.rating - n >= 0;
         }
       },
       beforeCreate: () => {
