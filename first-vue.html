@@ -1,164 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vue.js Dino Depot</title>
-        <script src="https://unpkg.com/vue"></script>
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        
-        <!-- Latest compiled JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-        <!-- App Specific CSS -->
-        <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
-    </head>
 
-    <body>
-        <div id="app">
-            <header>
-                <div class="navbar navbar-default">
-                    <h1> {{ sitename }} </h1>
-                </div>
-                <div class = "nav navbar-nav navbar-right cart">
-                    <button type="button" 
-                            class="btn btn-default btn-lg"
-                            v-on:click="showCheckout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js Dino Depot</title>
+  <script src="https://unpkg.com/vue"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- App Specific CSS -->
+  <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <div class="navbar navbar-default">
+        <h1> {{ sitename }} </h1>
+      </div>
+      <div class="nav navbar-nav navbar-right cart">
+        <button type="button" class="btn btn-default btn-lg" v-on:click="showCheckout">
                         <span class="glyphicon glyphicon-shopping-cart">
                             {{ cartItemCount }}
-                        </span> 
+                        </span>
                     </button>
-                </div>
-            </header>
+      </div>
+    </header>
 
-            <main>
-            <div class="container-fluid">
-              <div v-if="showProduct">
-                <div class="row product">
-                    <div class="col-lg-4">
-                    <figure>
-                        <img v-bind:src="product.image">
-                    </figure>
-                    <p> </p>
-                    </div>
-                    <div class="col-lg-8">
-                    <h1> {{ product.title }} </h1>
-                    <p v-html="product.description"></p>
-                    <p class="price"> {{ product.price | formatPrice }}</p>
-                    <button class="default" v-on:click="addToCart" v-if="canAddToCart">
+    <main>
+      <div class="container-fluid">
+        <div v-if="showProduct">
+          <div class="row product">
+            <div class="col-lg-4">
+              <figure>
+                <img v-bind:src="product.image">
+              </figure>
+              <p> </p>
+            </div>
+            <div class="col-lg-8">
+              <h1> {{ product.title }} </h1>
+              <p v-html="product.description"></p>
+              <p class="price"> {{ product.price | formatPrice }}</p>
+              <button class="default" v-on:click="addToCart" v-if="canAddToCart">
                         Add to Cart
                     </button>
-                    <button class="default" disabled="disabled" v-else>
+              <button class="default" disabled="disabled" v-else>
                         Backordered
                     </button>
-                    </div>
-                </div>
-              </div>
-              <div v-else>
-                  <h1>Checkout Page Here!!!</h1>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+            <div class="col-md-6">
+              <strong>First Name:</strong>
+              <input v-model="order.firstName" class="form-control" />
+            </div>
+            <div class="col-md-6">
+              <strong>Last Name:</strong>
+              <input v-model="order.lastName" class="form-control" />
+            </div>
+            <div class="form-group">
+              <div class="col-md-12"><strong>Address:</strong></div>
+              <div class="col-md-12">
+                <input v-model="order.address" class="form-control" />
               </div>
             </div>
-            </main>
+            <div class="form-group">
+              <div class="col-md-12"><strong>City:</strong></div>
+              <div class="col-md-12">
+                <input v-model="order.city" class="form-control" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-2">
+              <strong>State:</strong>
+              <select v-model="order.state" class="form-control">
+              <option disabled value="">State</option>
+              <option v-for="(state, key) in states" v-bind:value="state">
+                {{ key }}
+              </option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-6 col-md-offset-4">
+              <strong>Zip / Postal Code:</strong>
+              <input v-model="order.zip" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-6 boxes">
+              <label for="gift">Is this a Gift?</label>
+              <input type="checkbox" id="gift"
+                     value="true"
+                     v-bind:true-value="order.sendGift"
+                     v-bind:false-value="order.dontSendGift"
+                     v-model="order.gift">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-6 boxes">
+              <input type="radio" id="home"
+                     v-bind:value="order.home"
+                     v-model="order.method">
+              <label for="Home">Home</label>
+              <input type="radio" id="business"
+                     v-bind:value="order.business"
+                     v-model="order.method">
+              <label for="Business">Business</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-primary submit"
+                      v-on:click="submitForm">Place Order</button>
+            </div>
+          </div>
+
+          <div class="col-md-12 verify">
+            <pre>
+              First Name: {{ order.firstName }}
+              Last Name:  {{ order.lastName }}
+              Address:  {{ order.address }}
+              City:  {{ order.city }}
+              State:  {{ order.state }}
+              Zip Code:  {{ order.zip }}
+              Method: {{ order.method }}
+              Gift: {{ order.gift }}
+            </pre>
+          </div>
         </div>
+      </div>
+    </main>
+  </div>
 
-        <script type="text/javascript">
-            var APP_LOG_LIFECYCLE_EVENTS = false;
+  <script type="text/javascript">
+    var APP_LOG_LIFECYCLE_EVENTS = false;
 
-            var webstore = new Vue({
-                el: '#app',
-                data: {
-                    sitename: 'Vue.js Dino Depot',
-                    product: {
-                      id: 1001,
-                      title: "Ankylosaurus Food, 1 ton bag",
-                      description: "One ton of <em>irresistable</em>,"+
-                                   "organic goodness for your dino!",
-                      price: 1999,
-                      image: "assets/images/Dino-Nuggets.png",
-                      availableInventory: 5
-                    },
-                    showProduct: true,
-                    cart: []
-                  },
-                computed: {
-                    cartItemCount: function() {
-                        return this.cart.length || '';
-                    },
-                    canAddToCart: function() {
-                        return this.product.availableInventory > this.cartItemCount;
-                    }
-                },
-                filters: {
-                formatPrice: function(price) {
-                  if (!parseInt(price)) { return ""; } // make sure price is a number
-                  if (price > 99999) {
-                    var priceString = (price / 100.0).toFixed(2);
-                    var priceArray = priceString.split("").reverse();
-                    var index = 3;
-                    while (priceArray.length > index + 3) {
-                      priceArray.splice(index + 3, 0, ",");
-                      index += 4;
-                    }
-                    return "$" + priceArray.reverse().join("");
-                  } else {
-                    return "$" + (price / 100).toFixed(2);
-                  }
-                }
-              },
-              methods: {
-                    addToCart: function() {
-                        this.cart.push( this.product.id );
-                    },
-                    showCheckout() {
-                        this.showProduct = this.showProduct ? false : true;
-                    }
-                },
-                beforeCreate: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("beforeCreate");
-                    }
-                },
-                created: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("created");
-                    }
-                },
-                beforeMount: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("beforeMount");
-                    }
-                },
-                mounted: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("mounted");
-                    }
-                },
-                beforeUpdate: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("beforeUpdate");
-                    }
-                },
-                updated: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("updated");
-                    }
-                },
-                beforeDestroy: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("beforeDestroy");
-                    }
-                },
-                destroyed: () => {
-                    if (APP_LOG_LIFECYCLE_EVENTS) {
-                        console.log("destroyed");
-                    }
-                }
-            });
-        </script>
-    </body>
+    var webstore = new Vue({
+      el: '#app',
+      data: {
+        sitename: 'Vue.js Dino Depot',
+        product: {
+          id: 1001,
+          title: "Ankylosaurus Food, 1 ton bag",
+          description: "One ton of <em>irresistable</em>," +
+            "organic goodness for your dino!",
+          price: 1999,
+          image: "assets/images/Dino-Nuggets.png",
+          availableInventory: 5
+        },
+        showProduct: true,
+        order: {
+          firstName: '',
+          lastName: '',
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+          method: 'Home Address',
+          business: 'Business Address',
+          home: 'Home Address',
+          gift: 'Send as a Gift',
+          sendGift: 'Send as a Gift',
+          dontSendGift: 'Do Not Send as a Gift'
+        },
+        states: {
+          CA: 'California',
+          CO: 'Colorado',
+          NV: 'Nevada',
+          NY: 'New York',
+          WA: 'Washington'
+        },
+        cart: []
+      },
+      computed: {
+        cartItemCount: function() {
+          return this.cart.length || '';
+        },
+        canAddToCart: function() {
+          return this.product.availableInventory > this.cartItemCount;
+        }
+      },
+      filters: {
+        formatPrice: function(price) {
+          if (!parseInt(price)) {
+            return "";
+          } // make sure price is a number
+          if (price > 99999) {
+            var priceString = (price / 100.0).toFixed(2);
+            var priceArray = priceString.split("").reverse();
+            var index = 3;
+            while (priceArray.length > index + 3) {
+              priceArray.splice(index + 3, 0, ",");
+              index += 4;
+            }
+            return "$" + priceArray.reverse().join("");
+          } else {
+            return "$" + (price / 100).toFixed(2);
+          }
+        }
+      },
+      methods: {
+        addToCart: function() {
+          this.cart.push(this.product.id);
+        },
+        showCheckout() {
+          this.showProduct = this.showProduct ? false : true;
+        },
+        submitForm() {
+          alert('Submitted! Thank you!');
+        }
+      },
+      beforeCreate: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("beforeCreate");
+        }
+      },
+      created: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("created");
+        }
+      },
+      beforeMount: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("beforeMount");
+        }
+      },
+      mounted: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("mounted");
+        }
+      },
+      beforeUpdate: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("beforeUpdate");
+        }
+      },
+      updated: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("updated");
+        }
+      },
+      beforeDestroy: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("beforeDestroy");
+        }
+      },
+      destroyed: () => {
+        if (APP_LOG_LIFECYCLE_EVENTS) {
+          console.log("destroyed");
+        }
+      }
+    });
+  </script>
+</body>
+
 </html>
