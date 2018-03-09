@@ -70,7 +70,8 @@
                     v-else>Buy now! 
               </span>
               <div class="rating">
-              <span v-for="n in 5">☆</span>
+              <span v-bind:class="{'rating-active': checkRating(n)}" 
+                    v-for="n in 5">☆</span>
               </div>
             </div>
           </div>
@@ -179,7 +180,8 @@
             "organic goodness for your dino!",
           price: 1999,
           image: "assets/images/Dino-Nuggets.png",
-          availableInventory: 10
+          availableInventory: 10,
+          rating: 3
         },
         showProduct: true,
         order: {
@@ -241,6 +243,9 @@
         },
         submitForm() {
           alert('Submitted! Thank you!');
+        },
+        checkRating(n) {
+          return this.product.rating - n >= 0;
         }
       },
       beforeCreate: () => {
