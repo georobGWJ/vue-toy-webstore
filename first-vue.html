@@ -115,6 +115,12 @@
               <label for="Business">Business</label>
             </div>
           </div>
+          <div class="form-group">
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-primary submit"
+                      v-on:click="submitForm">Place Order</button>
+            </div>
+          </div>
           <div class="col-md-12 verify">
             <pre>
               First Name: {{ order.firstName }}
@@ -123,6 +129,8 @@
               City:  {{ order.city }}
               State:  {{ order.state }}
               Zip Code:  {{ order.zip }}
+              Method: {{ order.method }}
+              Gift: {{ order.gift }}
             </pre>
           </div>
         </div>
@@ -153,7 +161,9 @@
           address: '',
           city: '',
           state: '',
-          zip: ''
+          zip: '',
+          method: 'Home',
+          gift: false
         },
         cart: []
       },
@@ -190,6 +200,9 @@
         },
         showCheckout() {
           this.showProduct = this.showProduct ? false : true;
+        },
+        submitForm() {
+          alert('Submitted! Thank you!');
         }
       },
       beforeCreate: () => {
