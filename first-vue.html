@@ -59,16 +59,18 @@
           </div>
         </div>
         <div v-else>
-          <h1>Checkout</h1>
-          <div class="col-lg-6">
+          <div class="col-md-12">
+            <h1>Checkout</h1>
+          </div>
+          <div class="col-md-6">
             <strong>First Name:</strong>
             <input v-model="order.firstName" class="form-control"/>
           </div>
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <strong>Last Name:</strong>
             <input v-model="order.lastName" class="form-control"/>
           </div>
-          <div class="col-lg-12 verify">
+          <div class="col-md-12 verify">
             <pre>
             First Name: {{ order.firstName }}
             Last Name:  {{ order.lastName }}
@@ -96,6 +98,10 @@
           availableInventory: 5
         },
         showProduct: true,
+        order: {
+          firstName: '',
+          lastName: ''
+        },
         cart: []
       },
       computed: {
