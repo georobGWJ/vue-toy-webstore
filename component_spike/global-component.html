@@ -11,6 +11,8 @@
     </div>
 
     <script type="text/javascript">
+    // This is Global because it is created as a Vue component
+    // and is created Before the Vue instance
     Vue.component('my-component', {
       template: '<div><h2>Hello from a Sexy Global Component</h2></div>'
     });
