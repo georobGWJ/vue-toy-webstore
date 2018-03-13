@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <script src="https://unpkg.com/vue" charset="utf-8"></script>
-    <title>It's Props, like, Literally!</title>
+    <title>It's So Dynamic! (The Props are, I mean.)</title>
   </head>
   <body>
     <div id="app">
-      <my-component text="World"></my-component>
+      <my-component v-bind:text="message"></my-component>
     </div>
 
     <script type="text/javascript">
@@ -18,7 +18,13 @@
 
       new Vue({
         el: "#app",
-        components: {'my-component': MyComponent}
+        components: {'my-component': MyComponent},
+        data() {
+          // Data for components must be represented as functions, NOT objects
+          return {
+            message: 'From Parent Component!'
+          }
+        }
       });
     </script>
   </body>
