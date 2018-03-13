@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://unpkg.com/vue" charset="utf-8"></script>
+    <meta charset="utf-8">
+    <title>Inline Components for Great Justice.</title>
+  </head>
+  <body>
+    <div id="app">
+      <my-component :my-info="message" inline-template>
+        <div>
+          <p>
+            inline-template -<strong>{{myInfo}}</strong>
+          </p>
+        </div>
+      </my-component>
+    </div>
+
+    <script type="text/javascript">
+    const MyComponent = {
+      props: ['myInfo']
+    };
+
+    new Vue({
+      el: '#app',
+      components: {'my-component': MyComponent},
+      data() {
+        return {
+          message: 'Abby rocks!!!'
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
