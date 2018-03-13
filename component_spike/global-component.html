@@ -8,15 +8,26 @@
   <body>
     <div id="app">
       <my-component></my-component>
+      <my-component></my-component>
+      <my-component></my-component>
     </div>
 
     <script type="text/javascript">
-    Vue.component('my-component', {
-      template: '<div><h2>Hello from a Sexy Global Component</h2></div>'
-    });
+    // This is Global because it is created as a Vue component
+    // and is created Before the Vue instance
+    const MyComponent = {
+      template:'<div><button v-on:click="counter += 1">{{ counter }}</button></div>',
+      data() {
+          return { counter: 0
+        };
+      }
+    };
+
+
 
     new Vue({
-      el: "#app"
+      el: "#app",
+      components: {'my-component': MyComponent},
     });
     </script>
   </body>

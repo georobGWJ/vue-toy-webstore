@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue" charset="utf-8"></script>
+    <title>Validate those Props.</title>
+  </head>
+  <body>
+    <div id="app">
+      <my-component :num="myNumber"
+                    :str="passedString"
+                    :even="myNumber"
+                    :obj="passedObject"></my-component>
+    </div>
+
+    <script type="text/javascript">
+      const MyComponent = {
+        template:'<div> \
+                    Number: {{num}}   <br /> \
+                    String: {{str}}   <br /> \
+                    IsEven?: {{even}} <br /> \
+                    Object: {{obj.message}}  \
+                  </div>',
+        props: {
+          num: {
+            type: Number,
+            required: true
+          },
+          str: {
+            type: String,
+            default: "Default String..."
+          },
+          obj: {
+            type: Object,
+            default: () => {
+              return { message: 'I\'m an object!!!'}
+            }
+          },
+          even: {
+            validator: (value) => {
+              return (value % 2 === 0)
+            }
+          }
+        }
+      };
+
+      new Vue({
+        el: '#app',
+        components: { 'my-component': MyComponent },
+        data() {
+          return { passedString: 'I\'m the parent!',
+        myNumber: 43,
+        passedObject: { message: 'Passed object' }
+          }
+        }
+      });
+
+    </script>
+  </body>
+</html>
